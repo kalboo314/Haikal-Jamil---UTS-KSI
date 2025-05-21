@@ -10,6 +10,9 @@ class Applicant extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
         'id', 'user_id', 'scholarship_id', 'status', 'reason', 'submitted_at',
     ];
@@ -17,6 +20,13 @@ class Applicant extends Model
     protected $casts = [
         'submitted_at' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function ($model) {
+            $model->id = $model->id ?? (string) Str::uuid();
+        });
+    }
 
     public function user()
     {

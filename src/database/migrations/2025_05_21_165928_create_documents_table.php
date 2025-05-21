@@ -7,18 +7,19 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('scholarships', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->integer('quota')->default(0);
-            $table->date('deadline');
+            $table->uuid('applicant_id');
+            $table->string('type');
+            $table->string('file_path');
             $table->timestamps();
+
+            $table->foreign('applicant_id')->references('id')->on('applicants')->onDelete('cascade');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('scholarships');
+        Schema::dropIfExists('documents');
     }
 };

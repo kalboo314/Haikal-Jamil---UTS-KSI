@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
-class Scholarship extends Model
+class Document extends Model
 {
     use HasFactory;
 
-    public $incrementing = false; // karena pakai UUID
+    public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id', 'name', 'description', 'quota', 'deadline',
+        'id', 'applicant_id', 'type', 'file_path',
     ];
 
     protected static function booted(): void
@@ -24,8 +24,8 @@ class Scholarship extends Model
         });
     }
 
-    public function applicants()
+    public function applicant()
     {
-        return $this->hasMany(Applicant::class);
+        return $this->belongsTo(Applicant::class);
     }
 }
